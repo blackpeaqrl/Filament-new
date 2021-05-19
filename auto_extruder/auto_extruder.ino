@@ -117,38 +117,28 @@ void makeOutput(int um)
 void decode()
 {
     // Clear values.
-    sign = 1;
-    i = 0;
-    value = 0;
-    result = 0;
-    
-    // nonsens: TODO: FIX this.
-    digitalRead(datapin);
-    
-    for (i = 1; i <= 24; i++))
-    {
-        // Wait for clock pin to get high.
-        while (digitalRead(clockpin) == LOW) {};
-        
-        for (i = 1; i <= 20; i++)
-        {
-            // Wait for clock pin to get low.
-            while (digitalRead(clockpin) == HIGH) {};
-            
-            // Data pin is low?
-            if (digitalRead(datapin) == LOW)
-            {
-                if (i < 20)
-                {
-                    value |= 1 << i;
-                }
-                if (i == 20)
-                {
-                    sign = -1;
-                }
-            }
-        }
+  sign = 1;
+  i = 0;
+  value = 0;
+  result = 0;
+  digitalRead(datapin);
+  for (i = 0; i < 24; i++) {
+    // Wait for clock pin to get high.
+   while (digitalRead(clockpin) == HIGH) {}
+   // Wait for clock pin to get low.
+   while (digitalRead(clockpin) == LOW) {} 
+   // Data pin is low?
+    if (digitalRead(datapin) == HIGH) {
+      if (i < 20) {
+        value |= 1 << i;
+      }
+      if (i == 20) {
+        sign = -1;
+      }
+
     }
+
+  }
     
     result = (value * sign) / 100.00;
     makeOutput(value);
